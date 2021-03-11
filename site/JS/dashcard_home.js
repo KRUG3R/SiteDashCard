@@ -1,11 +1,11 @@
-function getSession(){
+function getUser(){
   var strUser = localStorage.getItem("userDASH");
   if (!strUser){    // se o objeto não existe no localStorage, signifca que eu não estou conectado
     window.location = "index.html";
     return;
   }
-  var user = JSON.parse(strUser)
-  return user.sessao
+  var user = JSON.parse(strUser.replaceAll(/'/g,'"'));
+  return user
 }
 
 function detalhe(){
@@ -18,39 +18,15 @@ function detalhe(){
 }
 
 
-function getUsuario(session)
-{
-    var xmlHttp = new XMLHttpRequest();
-    var theUrl = 'https://5loarm486l.execute-api.us-east-1.amazonaws.com/dev/usuario?sessionID=' + session
-    xmlHttp.open( "GET", theUrl, false ); 
-    xmlHttp.send( null );
-    if(xmlHttp.status!=200){
-      window.location.replace("index.html");
-    }
-    var dadosJson = JSON.parse(xmlHttp.responseText.replaceAll(/'/g,'"'));
-    return dadosJson;
-}
-
-function getTop10(session)
-{
-    
-    var xmlHttp = new XMLHttpRequest();
-    var theUrl = 'https://5loarm486l.execute-api.us-east-1.amazonaws.com/dev/agFinanceiros/top10?sessionID=' + session
-    xmlHttp.open( "GET", theUrl, false ); 
-    xmlHttp.send( null );
-    if(xmlHttp.status!=200){
-      window.location.replace("index.html");
-    }
-   
-    var dadosJson = JSON.parse(xmlHttp.responseText.replaceAll(/'/g,'"'));
-    return dadosJson;
-}
 
 
-function getAgentes(session)
+
+
+
+function getAgentes()
 {
     var xmlHttp = new XMLHttpRequest();
-    var theUrl = 'https://5loarm486l.execute-api.us-east-1.amazonaws.com/dev/agFinanceiros?sessionID=' + session
+    var theUrl = 'http://localhost:8080/agentes/' 
     xmlHttp.open( "GET", theUrl, false ); 
     xmlHttp.send( null );
     if(xmlHttp.status!=200){
@@ -72,8 +48,8 @@ function geraComboBox(data) {
     let select = document.getElementById("CBparceiro");
     for (let element of data) {
       var option = document.createElement('option');
-      option.value = element['id_agente'];
-      option.text = element['nome_agente'];
+      option.value = JSON.stringify(element);
+      option.text = element['nome'];
       select.add(option);
     }
   } catch{}
@@ -86,25 +62,31 @@ function generateTableHead(data) {
   let table = document.getElementById("tabelaParceiros");
   let thead = table.createTHead();
   let row = thead.insertRow();
-  
-  for (let key of keys) {
-    let th = document.createElement("th");
-    let text = document.createTextNode(key);
+  //coluna  Parceiro
+    var th = document.createElement("th");
+    var text = document.createTextNode("Parceiro");
     th.appendChild(text);
     row.appendChild(th);
-  }
+  //coluna  Volume Transacional  
+    th = document.createElement("th");
+    text = document.createTextNode("Volume Transacional");
+    th.appendChild(text);
+    row.appendChild(th);
+  
 }
 
 function generateTable(data) {
   table = document.getElementById("tabelaParceiros");
+  
   for (let element of data) {
-    let row = table.insertRow();
-    for (key in element) {
-      let cell = row.insertCell();
-      let text = document.createTextNode(element[key] );
-      cell.appendChild(text);
-      
-    }
+        row = table.insertRow();
+        cell = row.insertCell();
+        text = document.createTextNode(element['nome'] );
+        cell.appendChild(text);
+        cell = row.insertCell();
+        text = document.createTextNode(element['volume'] );
+        cell.appendChild(text);
+    
   }
 }
 
@@ -114,17 +96,17 @@ function logout(){
   return;
 }
 
-var sessionCode = getSession();
-var dadosUser = getUsuario(sessionCode);
-var nomeUser = dadosUser['nome'] + "(" + dadosUser['racf']+ ")";
-var fotoUser = dadosUser['urlFoto'];
-var dadosCB = getAgentes(sessionCode);
-var dadosTB = getTop10(sessionCode);
-
-generateTableHead(dadosTB);
-generateTable(dadosTB);
-geraComboBox(dadosCB);
+var user = getUser();
+var nomeUser = user['nome'] + "(" + user['racf']+ ")";
+var fotoUser = user['linkFoto'];
 atualizaNomeFoto(nomeUser,fotoUser);
+
+var dados = getAgentes();
+geraComboBox(dados);
+generateTableHead(dados);
+generateTable(dados);
+
+
 
 
 

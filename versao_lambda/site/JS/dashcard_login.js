@@ -7,7 +7,7 @@ function enviar(){
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   
-  var raw = JSON.stringify({"email":usuario,"racf":usuario,"senha":senha});
+  var raw = JSON.stringify({"usuario":usuario,"senha":senha});
   
   var requestOptions = {
     method: 'POST',
@@ -16,7 +16,7 @@ function enviar(){
     redirect: 'follow'
   };
   
-  fetch("http://localhost:8080/login", requestOptions)
+  fetch("https://5loarm486l.execute-api.us-east-1.amazonaws.com/dev/usuario/logon", requestOptions)
     .then(response => trataResultado(response))
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
@@ -35,7 +35,7 @@ function trataResultado(resultado){
           );
       console.log("acesso ok"+ resultado.body)
   }
-  else{
+  else if(resultado.status==401){
     document.getElementById("senhaIncorreta").style.visibility="visible";
   }
 

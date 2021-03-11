@@ -1,28 +1,32 @@
-function getSession(){
-    var strUser = localStorage.getItem("userDASH");
-    if (!strUser){    // se o objeto não existe no localStorage, signifca que eu não estou conectado
-      window.location = "index.html";
-      return;
-    }
-    var user = JSON.parse(strUser)
-    return user.sessao
+function getUser(){
+  var strUser = localStorage.getItem("userDASH");
+  if (!strUser){    // se o objeto não existe no localStorage, signifca que eu não estou conectado
+    window.location = "index.html";
+    return;
   }
+  var user = JSON.parse(strUser.replaceAll(/'/g,'"'));
+  return user
+}
 
-  function getParceiroId(){
+
+
+
+
+  function getParceiro(){
     var parceiroID = localStorage.getItem("parceiroID");
-    if (!parceiroID){    // se o objeto não existe no localStorage, volta para home.
+    if (!parceiroID){    
       window.location = "dashcard.html";
       return;
     }
-    //localStorage.removeItem("parceiroID");
-    return parceiroID
+    
+    return JSON.parse(parceiroID)
   }
 
-  function getDetalheParceiro(session, parceiroID)
+  function getDetalheParceiro(parceiroID)
   {
       var xmlHttp = new XMLHttpRequest();
-      var theUrl = 'https://5loarm486l.execute-api.us-east-1.amazonaws.com/dev/agFinanceiros?sessionID='+session+'&id_agente='+parceiroID
-      xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+      var theUrl = 'http://localhost:8080/transacao/totais/'+parceiroID
+      xmlHttp.open( "GET", theUrl, false ); 
       xmlHttp.send( null );
       if(xmlHttp.status!=200){
         window.location = "index.html";
@@ -32,18 +36,7 @@ function getSession(){
       return dadosJson;
   }
 
-  function getUsuario(session)
-  {
-      var xmlHttp = new XMLHttpRequest();
-      var theUrl = 'https://5loarm486l.execute-api.us-east-1.amazonaws.com/dev/usuario?sessionID=' + session
-      xmlHttp.open( "GET", theUrl, false ); 
-      xmlHttp.send( null );
-      if(xmlHttp.status!=200){
-        window.location.replace("index.html");
-      }
-      var dadosJson = JSON.parse(xmlHttp.responseText.replaceAll(/'/g,'"'));
-      return dadosJson;
-  }
+  
   function atualizaNomeFoto(nome, foto){
     try{
     document.getElementById("nomeUser").textContent = nome; 
@@ -57,23 +50,45 @@ function getSession(){
     return;
   }
 
-function MontaDadosParceiro(dados){
-  document.getElementById("nomeAgt").textContent = dados['nome'];
-  document.getElementById("vTrans").textContent = dados['volume'];
-  document.getElementById("vSucesso").textContent = dados['sucesso'];
-  document.getElementById("vFalhas").textContent = dados['falha'];
-  document.getElementById("vFraudes").textContent = dados['fraude'];
+function MontaDadosParceiro(nome, volume, sucesso, falha, fraude){
+  document.getElementById("nomeAgt").textContent = nome;
+  document.getElementById("vTrans").textContent = volume;
+  document.getElementById("vSucesso").textContent = sucesso;
+  document.getElementById("vFalhas").textContent = falha;
+  document.getElementById("vFraudes").textContent = fraude;
 
 
 }
 
-  var sessionCode = getSession();
-  var dadosUser = getUsuario(sessionCode);
-  var nomeUser = dadosUser['nome'] + "(" + dadosUser['racf']+ ")";
-  var fotoUser = dadosUser['urlFoto'];    
-  atualizaNomeFoto(nomeUser,fotoUser);
+var user = getUser();
+var nomeUser = user['nome'] + "(" + user['racf']+ ")";
+var fotoUser = user['linkFoto'];
+atualizaNomeFoto(nomeUser,fotoUser);
 
-  var ParceiroId = getParceiroId();
-  dados = getDetalheParceiro(sessionCode, ParceiroId);
+var parceiro = getParceiro();
+var id = parceiro['id'];
+var nome = parceiro['nome'];
+var volume = parceiro['volume'];
 
-  MontaDadosParceiro(dados);
+var dados = getDetalheParceiro(id);
+
+
+var sucesso = 0
+var falha = 0
+var fraude = 0
+
+for (let dado of dados){
+  if (dado['status'] == 0){
+     sucesso = dado['quantidade'];
+     
+    }
+  else if(dado['status'] == 1){
+     falha =dado['quantidade'];
+  }
+  else if (dado['status'] == 2){
+      fraude = dado['quantidade']
+    }
+}
+
+
+MontaDadosParceiro(nome, volume, sucesso, falha, fraude);
