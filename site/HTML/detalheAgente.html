@@ -19,7 +19,7 @@
   <body>
     <!--Barra de Navegação-->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Dashcard
+        <a class="navbar-brand" href="dashcard.html">Dashcard
             <img src="../IMG/CardIcon.png" width="30" height="30">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
         </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+             <!-- <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
@@ -40,7 +40,7 @@
                 <div class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item disabled" href="#">Gerenciar usuarios</a>
                 </div>
-              </li>
+              </li>-->
             </ul>
               <img  id="fotoUser" src="https://pbs.twimg.com/profile_images/805601190046220289/jmUDT6n1_400x400.jpg" alt="Sua foto" width="30" height="30">
               &nbsp;&nbsp;<span class="navbar-text" id="nomeUser" ></span>&nbsp;&nbsp;
@@ -59,7 +59,7 @@
                     <div class="col">
 
                 
-                        <h1>Nome do Agente</h1>
+                        <h1 class="display-4"><span id="nomeAgt"></span></h1>
               
 
 
@@ -68,7 +68,7 @@
                 <div class="row">
                     <div class="col">
                       <div class="alert alert-light" role="alert">
-                        Volume Transacional:
+                        Volume Transacional: <strong><span id="vTrans"></span></strong>
                       </div>
 
                      </div>
@@ -76,7 +76,7 @@
                 <div class="row">
                   <div class="col">
                     <div class="alert alert-success" role="alert">
-                      Sucesso:
+                      Sucesso: <strong><span id="vSucesso"></span></strong>
                     </div>
 
                    </div>
@@ -84,7 +84,7 @@
               <div class="row">
                 <div class="col">
                   <div class="alert alert-warning" role="alert">
-                    Falhas:
+                    Falhas: <strong> <span id="vFalhas"></span></strong>
                   </div>
 
                  </div>
@@ -92,7 +92,7 @@
             <div class="row">
               <div class="col">
                 <div class="alert alert-danger" role="alert">
-                  Fraudes:
+                  Fraudes: <strong><span id="vFraudes"></span></strong>
                 </div>
 
                </div>
