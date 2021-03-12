@@ -16,6 +16,11 @@
     <link rel="stylesheet" href="../CSS/dashcard_home.css">
     <title>Dashcard System - home</title>
   </head>
+
+
+
+  
+
   <body>
     <!--Barra de Navegação-->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
@@ -27,20 +32,6 @@
         </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-             <!-- <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Usuário
-                </a>
-                <div class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item disabled" href="#">Gerenciar usuarios</a>
-                </div>
-              </li>-->
             </ul>
               <img  id="fotoUser" src="https://pbs.twimg.com/profile_images/805601190046220289/jmUDT6n1_400x400.jpg" alt="Sua foto" width="30" height="30">
               &nbsp;&nbsp;<span class="navbar-text" id="nomeUser" ></span>&nbsp;&nbsp;
@@ -88,10 +79,87 @@
             </div>
             <!--Meio da página com gráficos-->
             <div class="col-lg-9 col-md-8 div2 bg-light text-dark" >
-             <!------------------------------------------------------------------------------->
+            
+              <div class="row" >
+                <div class="col-xl-7 col-lg-6 col-md-6 col-sm-12 col-12 borda" >
 
-              Gráficos...
-             <!------------------------------------------------------------------------------->
+                  <!---------------------gráfico de barras---------------------------------------->
+                  <div id="container" ><div class="chartjs-size-monitor">
+                    <div class="chartjs-size-monitor-expand"><div class=""></div></div>
+                    <div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+                  </div>
+                  <canvas id="canvas" style="display: block; " class="chartjs-render-monitor"></canvas>
+                </div>
+                <!-------------------------------------------------------------------------------->
+
+                </div>
+                <div class="col-xl-5 col-lg-6 col-md-6 col-sm-12 col-12 centro borda">
+
+                  <!----------------------------------gráfico de pizza 1------------------------->
+
+                  <div id="canvas-holder" style="width:100%">
+                    <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand">
+                        <div class=""></div></div><div class="chartjs-size-monitor-shrink">
+                        <div class=""></div></div></div>
+                    <canvas id="chart-area" style="display: block;"  class="chartjs-render-monitor"></canvas>
+                </div>
+
+
+                </div>  
+
+             
+            </div>
+            <div class="row borda" >
+             
+              <div class="col-lg-3 col-md-3  bg-light text-dark " >
+                <br>
+                <div class="alert alert-dark" role="alert">
+                  <strong>Hoje:</strong><br>
+                  Volume:<span id="v0"></span><br>
+                  <span class="text-success">Sucesso:<strong><span id="v1">00</span></strong></span><br>
+                  <span class="text-warning">Falha:<strong><span id="v2">00</span></strong></span><br>
+                  <span class="text-danger">Fraude:<strong><span id="v3">00</span></strong></span><br>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3  bg-light text-dark" >
+                <br>
+                <div class="alert alert-dark" role="alert">
+                  <Strong>Ontem:</Strong><br>
+                  Volume:<span id="v4"></span><br>
+                  <span class="text-success">Sucesso:<strong><span id="v5">00 (+00%)</span></strong></span><br>
+                  <span class="text-warning">Falha:<strong><span id="v6">00 (+00%)</span></strong></span><br>
+                  <span class="text-danger">Fraude:<strong><span id="v7">00 (+00%)</span></strong></span><br>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3  bg-light text-dark" >
+                <br>
+                <div class="alert alert-dark" role="alert">
+                <Strong>Ano passado:</Strong><br>
+                  Volume:<span id="v8"></span><br>
+                  <span class="text-success">Sucesso: <strong><span id="v9">00 (+00%)</span></strong></span><br>
+                  <span class="text-warning">Falha: <strong><span id="v10">00 (+00%)</span></strong></span><br>
+                  <span class="text-danger">Fraude: <strong><span id="v11">00 (+00%)</span></strong></span><br>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3  bg-light text-dark" >
+                <br>
+                <div class="alert alert-dark" role="alert">
+                <Strong>Último pico:</Strong><br>
+                  Volume:<span id="v12"></span><br>
+                  <span class="text-success">Sucesso: <strong><span id="v13">00 (+00%)</span></strong></span><br>
+                  <span class="text-warning">Falha: <strong><span id="v14">00 (+00%)</span></strong></span><br>
+                  <span class="text-danger">Fraude: <strong><span id="v15">00 (+00%)</span></strong></span><br>
+                </div>
+              </div>
+
+
+              
+            </div>
+
+
+
+              
+             
 
 
 
